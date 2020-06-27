@@ -25,4 +25,8 @@ public class Country extends BaseClass{
     private UUID id;
 
     private String name;
+
+    private String tag;
+
+    private Integer population;
 }

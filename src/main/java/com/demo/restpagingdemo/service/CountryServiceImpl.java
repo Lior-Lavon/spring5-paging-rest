@@ -25,16 +25,20 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public CountryPageList listCountries(PageRequest pageRequest) {
+    public CountryPageList listCountries(String tag, Pageable pageable) {
 
-        Page<Country> countryPage = countryRepository.findAll(pageRequest);
+        Page<Country> countryPage = null;
+        if(tag==null)
+            countryPage = countryRepository.findAll(pageable);
+        else
+            countryPage = countryRepository.findAllByTag(tag, pageable);
 
         List<CountryDto> page = countryPage
                 .stream()
                 .map(countryMapper::countryToCountryDto)
                 .collect(Collectors.toList());
 
-        CountryPageList countryPageList = new CountryPageList(page, pageRequest, countryPage.getTotalElements());
+        CountryPageList countryPageList = new CountryPageList(page, pageable, countryPage.getTotalElements());
         return countryPageList;
     }
 }
