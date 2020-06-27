@@ -1,17 +1,18 @@
 package com.demo.restpagingdemo.api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CountryDto {
+public class CountryDto implements Serializable {
+
+    private static final long serialVersionUID = -7551543057081867613L;
 
     private UUID id;
 
@@ -20,4 +21,5 @@ public class CountryDto {
     private String tag;
 
     private Integer population;
+
 }

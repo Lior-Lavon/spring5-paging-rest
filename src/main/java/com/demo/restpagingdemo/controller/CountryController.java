@@ -1,7 +1,11 @@
 package com.demo.restpagingdemo.controller;
 
+import com.demo.restpagingdemo.api.model.CountryDto;
+import com.demo.restpagingdemo.model.Country;
 import com.demo.restpagingdemo.model.CountryPageList;
 import com.demo.restpagingdemo.service.CountryService;
+import javassist.NotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,8 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 public class CountryController {
@@ -51,5 +58,12 @@ public class CountryController {
         }
 
         return new ResponseEntity<>(countryList, HttpStatus.OK);
+    }
+
+    @GetMapping("/{countryId}")
+    public ResponseEntity<CountryDto> findById(@PathVariable("countryId") UUID countryId) throws NotFoundException {
+
+        CountryDto countryDto = countryService.findById(countryId);
+        return new ResponseEntity<>(countryDto, HttpStatus.OK);
     }
 }
